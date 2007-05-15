@@ -9,10 +9,10 @@
 %{?_with_autotools: %{expand: %%global build_autotools 1}}
 %{?_without_autotools: %{expand: %%global build_autotools 0}}
 
-%define r_ver r11
+%define r_ver r12
 
-%define ma_realversion 1.2.11
-%define qb_realversion 1.2.11
+%define ma_realversion 1.2.12
+%define qb_realversion 1.2.12
 %define wb_realversion 1.1.10
 
 %define libname %mklibname 0
@@ -460,5 +460,3 @@ rm -rf %{buildroot}
 %{_iconsdir}/mysql-workbench.png
 %{_liconsdir}/mysql-workbench.png
 %{_miconsdir}/mysql-workbench.png
-
-
