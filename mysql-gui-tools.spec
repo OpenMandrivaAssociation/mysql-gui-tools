@@ -301,7 +301,7 @@ Exec=%{_bindir}/mysql-administrator
 Terminal=false
 Type=Application
 Icon=mysql-administrator.png
-Categories=X-MandrivaLinux-MoreApplications-Databases;GTK;Database;Development;Application
+Categories=X-MandrivaLinux-MoreApplications-Databases;GTK;Database;Development;Application;
 EOF
 
 # make some icons
@@ -336,7 +336,7 @@ Exec=%{_bindir}/mysql-query-browser
 Terminal=false
 Type=Application
 Icon=mysql-query-browser.png
-Categories=X-MandrivaLinux-MoreApplications-Databases;GTK;Database;Development;Application
+Categories=X-MandrivaLinux-MoreApplications-Databases;GTK;Database;Development;Application;
 EOF
 
 # make some icons
@@ -371,7 +371,7 @@ Exec=%{_bindir}/mysql-workbench
 Terminal=false
 Type=Application
 Icon=mysql-workbench.png
-Categories=X-MandrivaLinux-MoreApplications-Databases;GTK;Database;Development;Application
+Categories=X-MandrivaLinux-MoreApplications-Databases;GTK;Database;Development;Application;
 EOF
 
 # make some icons
