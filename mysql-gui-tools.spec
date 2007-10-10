@@ -300,7 +300,7 @@ Comment=MySQL Administration Tool
 Exec=%{_bindir}/mysql-administrator
 Terminal=false
 Type=Application
-Icon=mysql-administrator.png
+Icon=mysql-administrator
 Categories=X-MandrivaLinux-MoreApplications-Databases;GTK;Database;Development;Application;
 EOF
 
@@ -335,7 +335,7 @@ Comment=MySQL Query Tool
 Exec=%{_bindir}/mysql-query-browser
 Terminal=false
 Type=Application
-Icon=mysql-query-browser.png
+Icon=mysql-query-browser
 Categories=X-MandrivaLinux-MoreApplications-Databases;GTK;Database;Development;Application;
 EOF
 
@@ -370,7 +370,7 @@ Comment=MySQL Database Design Tool
 Exec=%{_bindir}/mysql-workbench
 Terminal=false
 Type=Application
-Icon=mysql-workbench.png
+Icon=mysql-workbench
 Categories=X-MandrivaLinux-MoreApplications-Databases;GTK;Database;Development;Application;
 EOF
 
