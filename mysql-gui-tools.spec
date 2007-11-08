@@ -21,20 +21,34 @@ Summary:	GUI Tools for MySQL 5.0 - common files
 Name:		mysql-gui-tools
 Group:		Databases
 Version:	5.0
-Release:	%mkrel 1.%{r_ver}.1
+Release:	%mkrel 1.%{r_ver}.2
 License:	GPL
 URL:		http://www.mysql.com/products/tools/
 Source:		ftp://ftp.sunet.se/pub/databases/relational/mysql/Downloads/MySQLGUITools/%{name}-%{version}%{r_ver}.tar.gz
 Patch0:		mysql-gui-tools-mdv_conf.diff
-Patch1:		mysql-gui-tools-drop_borked_tests.diff
+Patch1:		mysql-gui-tools-pcre_fix.diff
+Patch2:         mysql-administrator-1.1.5-shellbang.patch
+Patch3:		mysql-administrator-help.patch
+Patch4:		mysql-query-browser.patch
+Patch5:		mysql-query-browser-gcc4.patch
+Patch6:		mysql-gui-common-pkg-config.patch
+Patch7:		mysql-gui-common-unused-func.patch
+Patch8:		mysql-gui-common-warnings.patch
+Patch9:		mysql-gui-tools-warnings.patch
+Patch10:	mysql-gui-tools-gcc42.patch
+Patch11:	mysql-gui-tools-bash.patch
+Patch12:	mysql-gui-tools-global.patch
+Patch13:	mysql-gui-tools-workbench.patch
+Patch14:	mysql-gui-tools-sigc_2.1.1_api_fixes.diff
 BuildRequires:	autoconf2.5
+BuildRequires:	libtool
 BuildRequires:	expat-devel
 BuildRequires:	file
 BuildRequires:	gettext-devel
 BuildRequires:	glib2-devel
 BuildRequires:	glibmm2.4-devel
 BuildRequires:	gtk2-devel
-BuildRequires:	gtkmm2.4-devel
+BuildRequires:	gtkmm2.4-devel >= 2.6
 BuildRequires:	ImageMagick
 BuildRequires:	libext2fs-devel
 BuildRequires:	libglade2.0-devel >= 2.5
@@ -49,7 +63,6 @@ BuildRequires:	MesaGLU-devel
 %else
 BuildRequires:	libfcgi-devel
 BuildRequires:	libgtkhtml-3.14-devel
-BuildRequires:	libtool
 BuildRequires:	lua5.0-devel
 BuildRequires:	mesagl-devel
 BuildRequires:	mesaglu-devel
@@ -59,7 +72,7 @@ BuildRequires:  junit
 BuildRequires:  java-gcj-compat-devel
 BuildRequires:  jpackage-utils
 %endif
-BuildRequires:	MySQL-devel >= 5.0
+BuildRequires:	mysql-devel >= 5.0
 BuildRequires:	ncurses-devel
 BuildRequires:	pcre-devel >= 5.0
 BuildRequires:	pkgconfig
@@ -67,6 +80,8 @@ BuildRequires:	python-devel
 BuildRequires:	readline-devel
 BuildRequires:	termcap-devel
 BuildRequires:	libgnomeprint-devel >= 2.2.0
+BuildRequires:	openssl-devel
+BuildRequires:	gettext
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root
 
 %description 
@@ -123,6 +138,26 @@ This is MySQL Workbench %{wb_realversion}.
 %setup -q -n %{name}-%{version}%{r_ver}
 %patch0 -p1
 %patch1 -p0
+%patch2 -p1
+
+pushd mysql-administrator
+%patch3
+popd
+pushd mysql-query-browser
+%patch4
+%patch5
+popd
+pushd mysql-gui-common
+%patch6
+%patch7
+%patch8
+popd
+%patch9
+%patch10 -p1
+%patch11 -p1
+%patch12 -p1
+%patch13 -p1
+%patch14 -p1
 
 %if %{build_java}
 %if %mdkversion >= 200700
@@ -143,10 +178,7 @@ find . -type f|xargs file|grep 'CRLF'|cut -d: -f1|xargs perl -p -i -e 's/\r//'
 find . -type f|xargs file|grep 'text'|cut -d: -f1|xargs perl -p -i -e 's/\r//'
 
 %build
-
-# gui-common
-pushd mysql-gui-common
-
+pushd  mysql-gui-common
 %if %{build_autotools}
 sh ./autogen.sh \
     --prefix=%{_prefix} \
@@ -171,7 +203,8 @@ sh ./autogen.sh \
 %endif
 %endif
     --enable-readline \
-    --enable-canvas
+    --enable-canvas \
+    --with-bonobo
 %endif
 
 %configure2_5x \
@@ -187,7 +220,8 @@ sh ./autogen.sh \
 %endif
 %endif
     --enable-readline \
-    --enable-canvas
+    --enable-canvas \
+    --with-bonobo
 
 %make
 popd
@@ -205,10 +239,13 @@ sh ./autogen.sh \
     --libdir=%{_libdir} \
     --libexecdir=%{_libexecdir} \
     --localstatedir=%{_localstatedir} \
-    --mandir=%{_mandir}
+    --mandir=%{_mandir} \
+    --with-bonobo
+
 %endif
 
-%configure2_5x
+%configure2_5x \
+    --with-bonobo
 
 %make
 popd
@@ -228,18 +265,20 @@ sh ./autogen.sh \
     --localstatedir=%{_localstatedir} \
     --mandir=%{_mandir} \
 %if %mdkversion < 200700
-    --with-gtkhtml=libgtkhtml-3.6
+    --with-gtkhtml=libgtkhtml-3.6 \
 %else
-    --with-gtkhtml=libgtkhtml-3.14
+    --with-gtkhtml=libgtkhtml-3.14 \
 %endif
 %endif
+    --with-bonobo
 
 %configure2_5x \
 %if %mdkversion < 200700
-    --with-gtkhtml=libgtkhtml-3.6
+    --with-gtkhtml=libgtkhtml-3.6 \
 %else
-    --with-gtkhtml=libgtkhtml-3.14
+    --with-gtkhtml=libgtkhtml-3.14 \
 %endif
+    --with-bonobo
 
 %make
 popd
@@ -257,10 +296,12 @@ sh ./autogen.sh \
     --libdir=%{_libdir} \
     --libexecdir=%{_libexecdir} \
     --localstatedir=%{_localstatedir} \
-    --mandir=%{_mandir}
+    --mandir=%{_mandir} \
+    --with-bonobo
 %endif
 
-%configure2_5x
+%configure2_5x \
+    --with-bonobo
 
 %make
 popd
