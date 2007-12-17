@@ -82,7 +82,6 @@ BuildRequires:	termcap-devel
 BuildRequires:	libgnomeprint-devel >= 2.2.0
 BuildRequires:	openssl-devel
 BuildRequires:	gettext
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root
 
 %description 
 GUI Tools for MySQL 5.0 is a suite of applications written for developing and
