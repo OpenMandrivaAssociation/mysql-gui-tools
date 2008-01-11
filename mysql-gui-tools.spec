@@ -315,23 +315,11 @@ rm -rf %{buildroot}
 install -d %{buildroot}%{_miconsdir}
 install -d %{buildroot}%{_iconsdir}
 install -d %{buildroot}%{_liconsdir}
-install -d %{buildroot}%{_menudir}
 
 ################################################################################
 # mysql-administrator
 %makeinstall_std -C mysql-administrator
 
-cat > %{buildroot}%{_menudir}/mysql-administrator <<EOF
-?package(mysql-administrator): \
-command="%{_bindir}/mysql-administrator" \
-section="More Applications/Databases" \
-icon="mysql-administrator.png" \
-needs="x11" \
-kde_filename="mysql-administrator" \
-title="MySQL Administrator" \
-longtitle="Administration tool for MySQL 5.0" \
-xdg="true"
-EOF
 
 rm -f %{buildroot}%{_datadir}/applications/MySQLAdministrator.desktop 
 cat > %{buildroot}%{_datadir}/applications/mysql-administrator.desktop << EOF
@@ -356,17 +344,6 @@ convert %{buildroot}%{_datadir}/mysql-gui/MySQLIcon_Admin_48x48.png -resize 48x4
 # mysql-query-browser
 %makeinstall_std -C mysql-query-browser
 
-cat > %{buildroot}%{_menudir}/mysql-query-browser <<EOF
-?package(mysql-query-browser): \
-command="%{_bindir}/mysql-query-browser" \
-section="More Applications/Databases" \
-icon="mysql-query-browser.png" \
-needs="x11" \
-kde_filename="mysql-query-browser" \
-title="MySQL Query Browser" \
-longtitle="Query shell for MySQL 5.0" \
-xdg="true"
-EOF
 
 rm -f %{buildroot}%{_datadir}/applications/MySQLQueryBrowser.desktop
 cat > %{buildroot}%{_datadir}/applications/mysql-query-browser.desktop << EOF
@@ -391,17 +368,6 @@ convert %{buildroot}%{_datadir}/mysql-gui/MySQLIcon_QueryBrowser_48x48.png -resi
 # mysql-workbench
 %makeinstall_std -C mysql-workbench
 
-cat > %{buildroot}%{_menudir}/mysql-workbench <<EOF
-?package(mysql-workbench): \
-command="%{_bindir}/mysql-workbench" \
-section="More Applications/Databases" \
-icon="mysql-workbench.png" \
-needs="x11" \
-kde_filename="mysql-workbench" \
-title="MySQL Workbench" \
-longtitle="MySQL Database Design Tool" \
-xdg="true"
-EOF
 
 rm -f %{buildroot}%{_datadir}/applications/MySQLWorkbench.desktop
 cat > %{buildroot}%{_datadir}/applications/mysql-workbench.desktop << EOF
@@ -466,7 +432,6 @@ rm -rf %{buildroot}
 %{_datadir}/mysql-gui/MySQLIcon_Admin*
 %{_datadir}/mysql-gui/administrator/*
 %{_datadir}/applications/mysql-administrator.desktop
-%{_menudir}/mysql-administrator
 %{_iconsdir}/mysql-administrator.png
 %{_liconsdir}/mysql-administrator.png
 %{_miconsdir}/mysql-administrator.png
@@ -481,7 +446,6 @@ rm -rf %{buildroot}
 %attr(0755,root,root) %{_bindir}/mysql-query-browser-bin
 %{_datadir}/mysql-gui/MySQLIcon_Query*
 %{_datadir}/applications/mysql-query-browser.desktop
-%{_menudir}/mysql-query-browser
 %{_iconsdir}/mysql-query-browser.png
 %{_liconsdir}/mysql-query-browser.png
 %{_miconsdir}/mysql-query-browser.png
@@ -497,7 +461,6 @@ rm -rf %{buildroot}
 %{_datadir}/mysql-gui/MySQLIcon_Workbench*
 %{_datadir}/mysql-gui/workbench/*
 %{_datadir}/applications/mysql-workbench.desktop
-%{_menudir}/mysql-workbench
 %{_iconsdir}/mysql-workbench.png
 %{_liconsdir}/mysql-workbench.png
 %{_miconsdir}/mysql-workbench.png
