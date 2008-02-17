@@ -63,7 +63,7 @@ BuildRequires:	Mesa-devel
 BuildRequires:	MesaGLU-devel
 %else
 BuildRequires:	libfcgi-devel
-BuildRequires:	libgtkhtml-3.14-devel
+BuildRequires:	gtkhtml-3.14-devel
 BuildRequires:	lua5.0-devel
 BuildRequires:	mesagl-devel
 BuildRequires:	mesaglu-devel
