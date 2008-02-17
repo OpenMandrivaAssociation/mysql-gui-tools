@@ -21,7 +21,7 @@ Summary:	GUI Tools for MySQL 5.0 - common files
 Name:		mysql-gui-tools
 Group:		Databases
 Version:	5.0
-Release:	%mkrel 1.%{r_ver}.2
+Release:	%mkrel 1.%{r_ver}.3
 License:	GPL
 URL:		http://www.mysql.com/products/tools/
 Source:		ftp://ftp.sunet.se/pub/databases/relational/mysql/Downloads/MySQLGUITools/%{name}-%{version}%{r_ver}.tar.gz
@@ -40,6 +40,7 @@ Patch11:	mysql-gui-tools-bash.patch
 Patch12:	mysql-gui-tools-global.patch
 Patch13:	mysql-gui-tools-workbench.patch
 Patch14:	mysql-gui-tools-sigc_2.1.1_api_fixes.diff
+Patch15:	mysql-gui-tools.chema_change_freeze_bug.patch
 BuildRequires:	autoconf2.5
 BuildRequires:	libtool
 BuildRequires:	expat-devel
@@ -158,6 +159,7 @@ popd
 %patch12 -p1
 %patch13 -p1
 %patch14 -p1
+%patch15 -p1
 
 %if %{build_java}
 %if %mdkversion >= 200700
