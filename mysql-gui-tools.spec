@@ -191,7 +191,7 @@ sh ./autogen.sh \
     --includedir=%{_includedir} \
     --libdir=%{_libdir} \
     --libexecdir=%{_libexecdir} \
-    --localstatedir=%{_localstatedir} \
+    --localstatedir=%{_localstatedir}/lib \
     --mandir=%{_mandir} \
     --enable-grt \
     --enable-python-modules \
@@ -240,7 +240,7 @@ sh ./autogen.sh \
     --includedir=%{_includedir} \
     --libdir=%{_libdir} \
     --libexecdir=%{_libexecdir} \
-    --localstatedir=%{_localstatedir} \
+    --localstatedir=%{_localstatedir}/lib \
     --mandir=%{_mandir} \
     --with-bonobo
 
@@ -264,7 +264,7 @@ sh ./autogen.sh \
     --includedir=%{_includedir} \
     --libdir=%{_libdir} \
     --libexecdir=%{_libexecdir} \
-    --localstatedir=%{_localstatedir} \
+    --localstatedir=%{_localstatedir}/lib \
     --mandir=%{_mandir} \
 %if %mdkversion < 200700
     --with-gtkhtml=libgtkhtml-3.6 \
@@ -297,7 +297,7 @@ sh ./autogen.sh \
     --includedir=%{_includedir} \
     --libdir=%{_libdir} \
     --libexecdir=%{_libexecdir} \
-    --localstatedir=%{_localstatedir} \
+    --localstatedir=%{_localstatedir}/lib \
     --mandir=%{_mandir} \
     --with-bonobo
 %endif
