@@ -162,7 +162,6 @@ popd
 %patch15 -p1
 
 %if %{build_java}
-%if %mdkversion >= 200700
 # remove binary-only jars from filesystem
 %{__rm} mysql-gui-common/res/java/jtds-1.2.jar
 %{__rm} mysql-gui-common/res/java/junit.jar
@@ -172,7 +171,6 @@ popd
 
 # remove references to binary jars from java Makefile
 %{__perl} -pi -e 's/^javalib_DATA=.*/javalib_DATA=/' mysql-gui-common/source/java/Makefile.{am,in}
-%endif
 %endif
 
 # strip away annoying ^M
