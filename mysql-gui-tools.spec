@@ -386,23 +386,35 @@ convert %{buildroot}%{_datadir}/mysql-gui/MySQLIcon_Workbench_48x48.png -resize 
 convert %{buildroot}%{_datadir}/mysql-gui/MySQLIcon_Workbench_48x48.png -resize 32x32  %{buildroot}%{_iconsdir}/mysql-workbench.png
 convert %{buildroot}%{_datadir}/mysql-gui/MySQLIcon_Workbench_48x48.png -resize 48x48  %{buildroot}%{_liconsdir}/mysql-workbench.png
 
+%if %mdkversion < 200900
 %post -n mysql-administrator
 %update_menus
+%endif
 
+%if %mdkversion < 200900
 %postun -n mysql-administrator
 %clean_menus
+%endif
 
+%if %mdkversion < 200900
 %post -n mysql-query-browser
 %update_menus
+%endif
 
+%if %mdkversion < 200900
 %postun -n mysql-query-browser
 %clean_menus
+%endif
 
+%if %mdkversion < 200900
 %post -n mysql-workbench
 %update_menus
+%endif
 
+%if %mdkversion < 200900
 %postun -n mysql-workbench
 %clean_menus
+%endif
 
 %clean
 rm -rf %{buildroot}
