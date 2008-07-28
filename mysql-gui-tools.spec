@@ -41,6 +41,7 @@ Patch12:	mysql-gui-tools-global.patch
 Patch13:	mysql-gui-tools-workbench.patch
 Patch14:	mysql-gui-tools-sigc_2.1.1_api_fixes.diff
 Patch15:	mysql-gui-tools.chema_change_freeze_bug.patch
+Patch17:	mysql-gui-tools-gcc43.diff
 BuildRequires:	autoconf2.5
 BuildRequires:	libtool
 BuildRequires:	expat-devel
@@ -160,6 +161,7 @@ popd
 %patch13 -p1
 %patch14 -p1
 %patch15 -p1
+%patch17 -p1
 
 %if %{build_java}
 # remove binary-only jars from filesystem
