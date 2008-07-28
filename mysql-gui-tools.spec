@@ -1,13 +1,21 @@
 %define build_java 0
 %define build_autotools 1
+%define build_administrator 1
+%define build_query_browser 1
+%define build_workbench 1
 
 # commandline overrides:
 # rpm -ba|--rebuild --with 'xxx'
 %{?_with_java: %{expand: %%global build_java 1}}
 %{?_without_java: %{expand: %%global build_java 0}}
-
 %{?_with_autotools: %{expand: %%global build_autotools 1}}
 %{?_without_autotools: %{expand: %%global build_autotools 0}}
+%{?_with_administrator: %{expand: %%global build_administrator 1}}
+%{?_without_administrator: %{expand: %%global build_administrator 0}}
+%{?_with_query_browser: %{expand: %%global build_query_browser 1}}
+%{?_without_query_browser: %{expand: %%global build_query_browser 0}}
+%{?_with_workbench: %{expand: %%global build_workbench 1}}
+%{?_without_workbench: %{expand: %%global build_workbench 0}}
 
 %define r_ver r12
 
@@ -21,7 +29,7 @@ Summary:	GUI Tools for MySQL 5.0 - common files
 Name:		mysql-gui-tools
 Group:		Databases
 Version:	5.0
-Release:	%mkrel 1.%{r_ver}.3
+Release:	%mkrel 1.%{r_ver}.4
 License:	GPL
 URL:		http://www.mysql.com/products/tools/
 Source:		ftp://ftp.sunet.se/pub/databases/relational/mysql/Downloads/MySQLGUITools/%{name}-%{version}%{r_ver}.tar.gz
@@ -42,6 +50,7 @@ Patch13:	mysql-gui-tools-workbench.patch
 Patch14:	mysql-gui-tools-sigc_2.1.1_api_fixes.diff
 Patch15:	mysql-gui-tools.chema_change_freeze_bug.patch
 Patch17:	mysql-gui-tools-gcc43.diff
+Patch18:	mysql-gui-tools-no-DISABLE_DEPRECATED.diff
 BuildRequires:	autoconf2.5
 BuildRequires:	libtool
 BuildRequires:	expat-devel
@@ -94,6 +103,7 @@ This package contains data files and libraries for MySQL GUI Tools. Actual
 applications are in packages mysql-administrator, mysql-query-browser and
 mysql-workbench
 
+%if %{build_administrator}
 %package -n	mysql-administrator
 Summary:	Administration tool for MySQL 5.0
 Group:		Databases
@@ -107,7 +117,9 @@ integrates database management and maintenance into a single, seamless
 environment, with a clear and intuitive graphical user interface.
 
 This is MySQL Administrator %{ma_realversion}.
+%endif
 
+%if %{build_query_browser}
 %package -n	mysql-query-browser
 Summary:	Query shell for MySQL 5.0
 Group:		Databases
@@ -120,7 +132,9 @@ auxiliar features to facilitate work, such as query "bookmarking", query
 history, syntax highlighting and online help.
 
 This is MySQL QueryBrowser %{qb_realversion}.
+%endif
 
+%if %{build_workbench}
 %package -n	mysql-workbench
 Summary:	Extensible modeling tool for MySQL 5.0
 Group:		Databases
@@ -134,6 +148,7 @@ MySQL Workbench requires OpenGL and a 3D accelerated graphics card with at
 least 16MB of memory.
 
 This is MySQL Workbench %{wb_realversion}.
+%endif
 
 %prep
 
@@ -162,6 +177,7 @@ popd
 %patch14 -p1
 %patch15 -p1
 %patch17 -p1
+%patch18 -p1
 
 %if %{build_java}
 # remove binary-only jars from filesystem
@@ -180,6 +196,8 @@ find . -type f|xargs file|grep 'CRLF'|cut -d: -f1|xargs perl -p -i -e 's/\r//'
 find . -type f|xargs file|grep 'text'|cut -d: -f1|xargs perl -p -i -e 's/\r//'
 
 %build
+export CPPFLAGS="-D_GNU_SOURCE=1"
+
 pushd  mysql-gui-common
 %if %{build_autotools}
 sh ./autogen.sh \
@@ -228,6 +246,7 @@ sh ./autogen.sh \
 %make
 popd
 
+%if %{build_administrator}
 # administrator
 pushd mysql-administrator
 %if %{build_autotools}
@@ -251,7 +270,9 @@ sh ./autogen.sh \
 
 %make
 popd
+%endif
 
+%if %{build_query_browser}
 # query-browser
 pushd mysql-query-browser
 %if %{build_autotools}
@@ -272,7 +293,8 @@ sh ./autogen.sh \
     --with-gtkhtml=libgtkhtml-3.14 \
 %endif
 %endif
-    --with-bonobo
+    --with-bonobo \
+    --disable-maintainer-mode
 
 %configure2_5x \
 %if %mdkversion < 200700
@@ -280,11 +302,14 @@ sh ./autogen.sh \
 %else
     --with-gtkhtml=libgtkhtml-3.14 \
 %endif
-    --with-bonobo
+    --with-bonobo \
+    --disable-maintainer-mode
 
 %make
 popd
+%endif
 
+%if %{build_workbench}
 # workbench
 pushd mysql-workbench
 %if %{build_autotools}
@@ -307,6 +332,7 @@ sh ./autogen.sh \
 
 %make
 popd
+%endif
 
 %install
 rm -rf %{buildroot}
@@ -318,10 +344,10 @@ install -d %{buildroot}%{_miconsdir}
 install -d %{buildroot}%{_iconsdir}
 install -d %{buildroot}%{_liconsdir}
 
+%if %{build_administrator}
 ################################################################################
 # mysql-administrator
 %makeinstall_std -C mysql-administrator
-
 
 rm -f %{buildroot}%{_datadir}/applications/MySQLAdministrator.desktop 
 cat > %{buildroot}%{_datadir}/applications/mysql-administrator.desktop << EOF
@@ -341,11 +367,12 @@ convert %{buildroot}%{_datadir}/mysql-gui/MySQLIcon_Admin_48x48.png -resize 32x3
 convert %{buildroot}%{_datadir}/mysql-gui/MySQLIcon_Admin_48x48.png -resize 48x48  %{buildroot}%{_liconsdir}/mysql-administrator.png
 
 %find_lang mysql-administrator --all-name
+%endif
 
+%if %{build_query_browser}
 ################################################################################
 # mysql-query-browser
 %makeinstall_std -C mysql-query-browser
-
 
 rm -f %{buildroot}%{_datadir}/applications/MySQLQueryBrowser.desktop
 cat > %{buildroot}%{_datadir}/applications/mysql-query-browser.desktop << EOF
@@ -365,11 +392,12 @@ convert %{buildroot}%{_datadir}/mysql-gui/MySQLIcon_QueryBrowser_48x48.png -resi
 convert %{buildroot}%{_datadir}/mysql-gui/MySQLIcon_QueryBrowser_48x48.png -resize 48x48  %{buildroot}%{_liconsdir}/mysql-query-browser.png
 
 %find_lang mysql-query-browser --all-name
+%endif
 
+%if %{build_workbench}
 ################################################################################
 # mysql-workbench
 %makeinstall_std -C mysql-workbench
-
 
 rm -f %{buildroot}%{_datadir}/applications/MySQLWorkbench.desktop
 cat > %{buildroot}%{_datadir}/applications/mysql-workbench.desktop << EOF
@@ -387,7 +415,9 @@ EOF
 convert %{buildroot}%{_datadir}/mysql-gui/MySQLIcon_Workbench_48x48.png -resize 16x16  %{buildroot}%{_miconsdir}/mysql-workbench.png
 convert %{buildroot}%{_datadir}/mysql-gui/MySQLIcon_Workbench_48x48.png -resize 32x32  %{buildroot}%{_iconsdir}/mysql-workbench.png
 convert %{buildroot}%{_datadir}/mysql-gui/MySQLIcon_Workbench_48x48.png -resize 48x48  %{buildroot}%{_liconsdir}/mysql-workbench.png
+%endif
 
+%if %{build_administrator}
 %if %mdkversion < 200900
 %post -n mysql-administrator
 %update_menus
@@ -397,7 +427,9 @@ convert %{buildroot}%{_datadir}/mysql-gui/MySQLIcon_Workbench_48x48.png -resize 
 %postun -n mysql-administrator
 %clean_menus
 %endif
+%endif
 
+%if %{build_query_browser}
 %if %mdkversion < 200900
 %post -n mysql-query-browser
 %update_menus
@@ -407,7 +439,9 @@ convert %{buildroot}%{_datadir}/mysql-gui/MySQLIcon_Workbench_48x48.png -resize 
 %postun -n mysql-query-browser
 %clean_menus
 %endif
+%endif
 
+%if %{build_workbench}
 %if %mdkversion < 200900
 %post -n mysql-workbench
 %update_menus
@@ -416,6 +450,7 @@ convert %{buildroot}%{_datadir}/mysql-gui/MySQLIcon_Workbench_48x48.png -resize 
 %if %mdkversion < 200900
 %postun -n mysql-workbench
 %clean_menus
+%endif
 %endif
 
 %clean
@@ -434,6 +469,7 @@ rm -rf %{buildroot}
 %endif
 %endif
 
+%if %{build_administrator}
 %files -n mysql-administrator -f mysql-administrator.lang
 %defattr(-, root, root)
 %doc mysql-administrator/ChangeLog
@@ -449,7 +485,9 @@ rm -rf %{buildroot}
 %{_iconsdir}/mysql-administrator.png
 %{_liconsdir}/mysql-administrator.png
 %{_miconsdir}/mysql-administrator.png
+%endif
 
+%if %{build_query_browser}
 %files -n mysql-query-browser -f mysql-query-browser.lang
 %defattr(-, root, root)
 %doc mysql-query-browser/COPYING 
@@ -463,7 +501,9 @@ rm -rf %{buildroot}
 %{_iconsdir}/mysql-query-browser.png
 %{_liconsdir}/mysql-query-browser.png
 %{_miconsdir}/mysql-query-browser.png
+%endif
 
+%if %{build_workbench}
 %files -n mysql-workbench
 %defattr(-, root, root)
 %doc mysql-workbench/COPYING
@@ -478,3 +518,4 @@ rm -rf %{buildroot}
 %{_iconsdir}/mysql-workbench.png
 %{_liconsdir}/mysql-workbench.png
 %{_miconsdir}/mysql-workbench.png
+%endif
