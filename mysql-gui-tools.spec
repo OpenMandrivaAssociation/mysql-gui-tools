@@ -29,10 +29,12 @@ Summary:	GUI Tools for MySQL 5.0 - common files
 Name:		mysql-gui-tools
 Group:		Databases
 Version:	5.0
-Release:	%mkrel 1.%{r_ver}.4
+Release:	%mkrel 1.%{r_ver}.5
 License:	GPL
 URL:		http://www.mysql.com/products/tools/
 Source:		ftp://ftp.sunet.se/pub/databases/relational/mysql/Downloads/MySQLGUITools/%{name}-%{version}%{r_ver}.tar.gz
+Source1:	mysql-administrator-doc.tar.bz2
+Source2:	mysql-query-browser-doc.tar.bz2
 Patch0:		mysql-gui-tools-mdv_conf.diff
 Patch1:		mysql-gui-tools-pcre_fix.diff
 Patch2:         mysql-administrator-1.1.5-shellbang.patch
@@ -152,7 +154,7 @@ This is MySQL Workbench %{wb_realversion}.
 
 %prep
 
-%setup -q -n %{name}-%{version}%{r_ver}
+%setup -q -n %{name}-%{version}%{r_ver} -a1 -a2
 %patch0 -p1
 %patch1 -p0
 %patch2 -p1
@@ -160,15 +162,18 @@ This is MySQL Workbench %{wb_realversion}.
 pushd mysql-administrator
 %patch3
 popd
+
 pushd mysql-query-browser
 %patch4
 %patch5
 popd
+
 pushd mysql-gui-common
 %patch6
 %patch7
 %patch8
 popd
+
 %patch9
 %patch10 -p1
 %patch11 -p1
@@ -475,6 +480,7 @@ rm -rf %{buildroot}
 %doc mysql-administrator/ChangeLog
 %doc mysql-administrator/COPYING 
 %doc mysql-administrator/res/FAQ
+%doc mysql-administrator/doc/*
 %attr(0755,root,root) %{_bindir}/mabackup
 %attr(0755,root,root) %{_bindir}/mysql-administrator
 %attr(0755,root,root) %{_bindir}/mysql-administrator-bin
@@ -492,6 +498,7 @@ rm -rf %{buildroot}
 %defattr(-, root, root)
 %doc mysql-query-browser/COPYING 
 %doc mysql-query-browser/res/ChangeLog
+%doc mysql-query-browser/doc/*
 %dir %{_datadir}/mysql-gui/query-browser
 %{_datadir}/mysql-gui/query-browser/*
 %attr(0755,root,root) %{_bindir}/mysql-query-browser
