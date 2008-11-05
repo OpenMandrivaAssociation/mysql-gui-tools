@@ -2,7 +2,6 @@
 %define build_autotools 1
 %define build_administrator 1
 %define build_query_browser 1
-%define build_workbench 1
 
 # commandline overrides:
 # rpm -ba|--rebuild --with 'xxx'
@@ -14,14 +13,11 @@
 %{?_without_administrator: %{expand: %%global build_administrator 0}}
 %{?_with_query_browser: %{expand: %%global build_query_browser 1}}
 %{?_without_query_browser: %{expand: %%global build_query_browser 0}}
-%{?_with_workbench: %{expand: %%global build_workbench 1}}
-%{?_without_workbench: %{expand: %%global build_workbench 0}}
 
-%define r_ver r12
+%define r_ver r14
 
 %define ma_realversion 1.2.12
 %define qb_realversion 1.2.12
-%define wb_realversion 1.1.10
 
 %define libname %mklibname 0
 
@@ -29,14 +25,13 @@ Summary:	GUI Tools for MySQL 5.0 - common files
 Name:		mysql-gui-tools
 Group:		Databases
 Version:	5.0
-Release:	%mkrel 1.%{r_ver}.5
+Release:	%mkrel 1.%{r_ver}.1
 License:	GPL
 URL:		http://www.mysql.com/products/tools/
 Source:		ftp://ftp.sunet.se/pub/databases/relational/mysql/Downloads/MySQLGUITools/%{name}-%{version}%{r_ver}.tar.gz
 Source1:	mysql-administrator-doc.tar.bz2
 Source2:	mysql-query-browser-doc.tar.bz2
 Patch0:		mysql-gui-tools-mdv_conf.diff
-Patch1:		mysql-gui-tools-pcre_fix.diff
 Patch2:         mysql-administrator-1.1.5-shellbang.patch
 Patch3:		mysql-administrator-help.patch
 Patch4:		mysql-query-browser.patch
@@ -44,15 +39,14 @@ Patch5:		mysql-query-browser-gcc4.patch
 Patch6:		mysql-gui-common-pkg-config.patch
 Patch7:		mysql-gui-common-unused-func.patch
 Patch8:		mysql-gui-common-warnings.patch
-Patch9:		mysql-gui-tools-warnings.patch
 Patch10:	mysql-gui-tools-gcc42.patch
 Patch11:	mysql-gui-tools-bash.patch
 Patch12:	mysql-gui-tools-global.patch
-Patch13:	mysql-gui-tools-workbench.patch
 Patch14:	mysql-gui-tools-sigc_2.1.1_api_fixes.diff
 Patch15:	mysql-gui-tools.chema_change_freeze_bug.patch
 Patch17:	mysql-gui-tools-gcc43.diff
 Patch18:	mysql-gui-tools-no-DISABLE_DEPRECATED.diff
+Patch19:	mysql-gui-tools-5.0r14-garbage_fix.diff
 BuildRequires:	autoconf2.5
 BuildRequires:	libtool
 BuildRequires:	expat-devel
@@ -136,27 +130,23 @@ history, syntax highlighting and online help.
 This is MySQL QueryBrowser %{qb_realversion}.
 %endif
 
-%if %{build_workbench}
-%package -n	mysql-workbench
-Summary:	Extensible modeling tool for MySQL 5.0
-Group:		Databases
-Requires:	mysql-gui-tools = %{version}
-
-%description -n	mysql-workbench
-MySQL Workbench is modeling tool that allows you to design and generate MySQL
-databases graphically.
-
-MySQL Workbench requires OpenGL and a 3D accelerated graphics card with at
-least 16MB of memory.
-
-This is MySQL Workbench %{wb_realversion}.
-%endif
-
 %prep
 
 %setup -q -n %{name}-%{version}%{r_ver} -a1 -a2
+
+# fixups
+mv common mysql-gui-common
+
+mv administrator/* mysql-administrator/
+rm -rf administrator
+
+mv query-browser/* mysql-query-browser/
+rm -rf query-browser
+
+# will probably never work on linux
+rm -rf migration-tool
+
 %patch0 -p1
-%patch1 -p0
 %patch2 -p1
 
 pushd mysql-administrator
@@ -174,15 +164,14 @@ pushd mysql-gui-common
 %patch8
 popd
 
-%patch9
 %patch10 -p1
 %patch11 -p1
 %patch12 -p1
-%patch13 -p1
 %patch14 -p1
 %patch15 -p1
 %patch17 -p1
 %patch18 -p1
+%patch19 -p0
 
 %if %{build_java}
 # remove binary-only jars from filesystem
@@ -314,31 +303,6 @@ sh ./autogen.sh \
 popd
 %endif
 
-%if %{build_workbench}
-# workbench
-pushd mysql-workbench
-%if %{build_autotools}
-sh ./autogen.sh \
-    --prefix=%{_prefix} \
-    --bindir=%{_bindir} \
-    --sbindir=%{_sbindir} \
-    --sysconfdir=%{_sysconfdir} \
-    --datadir=%{_datadir} \
-    --includedir=%{_includedir} \
-    --libdir=%{_libdir} \
-    --libexecdir=%{_libexecdir} \
-    --localstatedir=%{_localstatedir}/lib \
-    --mandir=%{_mandir} \
-    --with-bonobo
-%endif
-
-%configure2_5x \
-    --with-bonobo
-
-%make
-popd
-%endif
-
 %install
 rm -rf %{buildroot}
 
@@ -399,29 +363,6 @@ convert %{buildroot}%{_datadir}/mysql-gui/MySQLIcon_QueryBrowser_48x48.png -resi
 %find_lang mysql-query-browser --all-name
 %endif
 
-%if %{build_workbench}
-################################################################################
-# mysql-workbench
-%makeinstall_std -C mysql-workbench
-
-rm -f %{buildroot}%{_datadir}/applications/MySQLWorkbench.desktop
-cat > %{buildroot}%{_datadir}/applications/mysql-workbench.desktop << EOF
-[Desktop Entry]
-Name=MySQL Workbench
-Comment=MySQL Database Design Tool
-Exec=%{_bindir}/mysql-workbench
-Terminal=false
-Type=Application
-Icon=mysql-workbench
-Categories=X-MandrivaLinux-MoreApplications-Databases;GTK;Database;Development;Application;
-EOF
-
-# make some icons
-convert %{buildroot}%{_datadir}/mysql-gui/MySQLIcon_Workbench_48x48.png -resize 16x16  %{buildroot}%{_miconsdir}/mysql-workbench.png
-convert %{buildroot}%{_datadir}/mysql-gui/MySQLIcon_Workbench_48x48.png -resize 32x32  %{buildroot}%{_iconsdir}/mysql-workbench.png
-convert %{buildroot}%{_datadir}/mysql-gui/MySQLIcon_Workbench_48x48.png -resize 48x48  %{buildroot}%{_liconsdir}/mysql-workbench.png
-%endif
-
 %if %{build_administrator}
 %if %mdkversion < 200900
 %post -n mysql-administrator
@@ -442,18 +383,6 @@ convert %{buildroot}%{_datadir}/mysql-gui/MySQLIcon_Workbench_48x48.png -resize 
 
 %if %mdkversion < 200900
 %postun -n mysql-query-browser
-%clean_menus
-%endif
-%endif
-
-%if %{build_workbench}
-%if %mdkversion < 200900
-%post -n mysql-workbench
-%update_menus
-%endif
-
-%if %mdkversion < 200900
-%postun -n mysql-workbench
 %clean_menus
 %endif
 %endif
@@ -510,19 +439,3 @@ rm -rf %{buildroot}
 %{_miconsdir}/mysql-query-browser.png
 %endif
 
-%if %{build_workbench}
-%files -n mysql-workbench
-%defattr(-, root, root)
-%doc mysql-workbench/COPYING
-%doc mysql-workbench/ChangeLog
-%doc mysql-workbench/README.linux
-%attr(0755,root,root) %{_bindir}/mysql-workbench
-%attr(0755,root,root) %{_bindir}/mysql-workbench-bin
-%dir %{_datadir}/mysql-gui/workbench
-%{_datadir}/mysql-gui/MySQLIcon_Workbench*
-%{_datadir}/mysql-gui/workbench/*
-%{_datadir}/applications/mysql-workbench.desktop
-%{_iconsdir}/mysql-workbench.png
-%{_liconsdir}/mysql-workbench.png
-%{_miconsdir}/mysql-workbench.png
-%endif
