@@ -56,7 +56,7 @@ BuildRequires:	glib2-devel
 BuildRequires:	glibmm2.4-devel
 BuildRequires:	gtk2-devel
 BuildRequires:	gtkmm2.4-devel >= 2.6
-BuildRequires:	ImageMagick
+BuildRequires:	imagemagick
 BuildRequires:	libext2fs-devel
 BuildRequires:	libglade2.0-devel >= 2.5
 BuildRequires:	libsigc++2.0-devel
