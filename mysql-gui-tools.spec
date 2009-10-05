@@ -84,16 +84,17 @@ BuildRequires:  junit
 BuildRequires:  java-gcj-compat-devel
 BuildRequires:  jpackage-utils
 %endif
+BuildRequires:	gettext
+BuildRequires:	libgnome2-devel
+BuildRequires:	libgnomeprint-devel >= 2.2.0
 BuildRequires:	mysql-devel >= 5.0
 BuildRequires:	ncurses-devel
+BuildRequires:	openssl-devel
 BuildRequires:	pcre-devel >= 5.0
 BuildRequires:	pkgconfig
 BuildRequires:	python-devel
 BuildRequires:	readline-devel
 BuildRequires:	termcap-devel
-BuildRequires:	libgnomeprint-devel >= 2.2.0
-BuildRequires:	openssl-devel
-BuildRequires:	gettext
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root
 
 %description 
