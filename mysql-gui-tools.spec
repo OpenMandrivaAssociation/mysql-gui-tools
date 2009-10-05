@@ -147,7 +147,7 @@ rm -rf query-browser
 rm -rf migration-tool
 
 %patch0 -p1
-%patch2 -p1
+%patch2 -p0
 
 pushd mysql-administrator
 %patch3
@@ -166,7 +166,7 @@ popd
 
 %patch10 -p1
 %patch11 -p1
-%patch12 -p1
+%patch12 -p0
 %patch14 -p1
 %patch15 -p1
 %patch17 -p1
