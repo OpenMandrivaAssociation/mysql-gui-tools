@@ -47,6 +47,10 @@ Patch15:	mysql-gui-tools.chema_change_freeze_bug.patch
 Patch17:	mysql-gui-tools-gcc43.diff
 Patch18:	mysql-gui-tools-no-DISABLE_DEPRECATED.diff
 Patch19:	mysql-gui-tools-5.0r14-garbage_fix.diff
+Patch20:	mysql-gui-tools-5.0r14-invalid_const_char_conversion.diff
+Patch21:	mysql-gui-tools-5.0r14-format_not_a_string_literal_and_no_format_arguments.diff
+Patch22:	mysql-gui-tools-gtksourceview-cflags.patch
+Patch23:	mysql-gui-tools-5.0r14-gnome_cflags.diff
 BuildRequires:	autoconf2.5
 BuildRequires:	libtool
 BuildRequires:	expat-devel
@@ -172,6 +176,10 @@ popd
 %patch17 -p1
 %patch18 -p1
 %patch19 -p0
+%patch20 -p0
+%patch21 -p0
+%patch22 -p0
+%patch23 -p0
 
 %if %{build_java}
 # remove binary-only jars from filesystem
