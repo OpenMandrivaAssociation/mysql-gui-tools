@@ -52,7 +52,6 @@ Patch21:	mysql-gui-tools-5.0r14-format_not_a_string_literal_and_no_format_argume
 Patch22:	mysql-gui-tools-gtksourceview-cflags.patch
 Patch23:	mysql-gui-tools-5.0r14-gnome_cflags.diff
 BuildRequires:	autoconf2.5
-BuildRequires:	libtool
 BuildRequires:	expat-devel
 BuildRequires:	file
 BuildRequires:	gettext-devel
@@ -65,6 +64,8 @@ BuildRequires:	libext2fs-devel
 BuildRequires:	libglade2.0-devel >= 2.5
 BuildRequires:	libsigc++2.0-devel
 BuildRequires:	libslang-devel
+BuildRequires:	libtool
+BuildRequires:	libuuid-devel
 BuildRequires:	libxml2-devel
 %if %mdkversion < 200700
 BuildRequires:	libgtkhtml-3.6-devel
