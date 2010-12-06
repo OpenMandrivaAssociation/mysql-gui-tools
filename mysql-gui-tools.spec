@@ -25,7 +25,7 @@ Summary:	GUI Tools for MySQL 5.0 - common files
 Name:		mysql-gui-tools
 Group:		Databases
 Version:	5.0
-Release:	%mkrel 1.%{r_ver}.6
+Release:	%mkrel 1.%{r_ver}.7
 License:	GPL
 URL:		http://www.mysql.com/products/tools/
 Source:		ftp://ftp.sunet.se/pub/databases/relational/mysql/Downloads/MySQLGUITools/%{name}-%{version}%{r_ver}.tar.gz
