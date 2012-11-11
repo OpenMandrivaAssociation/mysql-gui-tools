@@ -1,0 +1,10 @@
+--- mysql-query-browser/configure.in	2007-04-27 14:06:36.000000000 -0400
++++ mysql-query-browser/configure.in.oden	2009-10-05 09:07:23.000000000 -0400
+@@ -73,6 +73,7 @@
+ PKG_CHECK_MODULES(GNOME, [libglade-2.0
+ 			gthread-2.0
+ 			libxml-2.0 >= 2.6.2
++			libgnome-2.0
+                         $gtkhtml
+                         gtkmm-2.4])
+ AC_SUBST(GNOME_CFLAGS)

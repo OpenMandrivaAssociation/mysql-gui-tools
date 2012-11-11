@@ -1,0 +1,32 @@
+--- library/generic-canvas/source/myx_gc_figure.cpp
++++ library/generic-canvas/source/myx_gc_figure.cpp
+@@ -3164,7 +3164,8 @@
+         // Convert depth map so that unused values become 0 (transparent).
+         unsigned char* run = buffer;
+         for (int i = 0; i < bufferSize; ++i)
+-          *run = 255 - *run++;
++          *run = 255 - *(run + 1);
++          run++;
+       };
+       
+       // Release frame buffer binding to enable normal rendering again.
+--- library/grt-modules/source/myx_grt_mysql_transformation.c
++++ library/grt-modules/source/myx_grt_mysql_transformation.c
+@@ -2432,7 +2432,7 @@
+   // add changed table options
+   for(i= 0; data[i].key != NULL; i++)
+   {
+-    if(data[i].value != "")
++    if(strcmp(data[i].value,""))
+     {
+       sql= str_g_append_and_free(sql, g_strdup_printf(", %s", data[i].value));
+       g_free(data[i].value);
+@@ -2514,7 +2514,7 @@
+   // add changed routine options
+   for(i= 0; data[i].key != NULL; i++)
+   {
+-    if(data[i].value != "")
++    if(strcmp(data[i].value,""))
+     {
+       sql= str_g_append_and_free(sql, g_strdup_printf(" %s", data[i].value));
+       g_free(data[i].value);

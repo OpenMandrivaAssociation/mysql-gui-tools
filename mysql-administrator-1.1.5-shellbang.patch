@@ -1,0 +1,11 @@
+--- mysql-administrator/source/linux/mysql-administrator	2008-09-12 10:55:33.000000000 -0400
++++ mysql-administrator/source/linux/mysql-administrator.oden	2009-10-05 08:13:19.000000000 -0400
+@@ -1,6 +1,8 @@
+ #!/bin/sh
+ 
++#!/bin/sh
+ PRG="$0"
++export DEBUG_DONT_SPAWN_FETCHES=1
+ 
+ # need this for relative symlinks
+ while [ -h "$PRG" ] ; do

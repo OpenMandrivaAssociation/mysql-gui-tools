@@ -1,0 +1,31 @@
+--- mysql-gui-common/library/base-library/source/myx_library.c	2008-10-13 07:36:12.000000000 -0400
++++ mysql-gui-common/library/base-library/source/myx_library.c.oden	2009-10-05 08:14:19.000000000 -0400
+@@ -51,6 +51,28 @@ typedef char    pbool;          /* Mixed
+ typedef short   pshort;         /* Mixed prototypes can take short int */
+ typedef float   pfloat;         /* Mixed prototypes can take float */
+ 
++/*
++  __attribute__((format(...))) is only supported in gcc >= 2.8 and g++ >= 3.4
++  But that's already covered by the __attribute__ tests above, so this is
++  just a convenience macro.
++*/
++#ifndef ATTRIBUTE_FORMAT
++# define ATTRIBUTE_FORMAT(style, m, n) __attribute__((format(style, m, n)))
++#endif
++
++/*
++
++   __attribute__((format(...))) on a function pointer is not supported
++   until  gcc 3.1
++*/
++#ifndef ATTRIBUTE_FORMAT_FPTR
++# if (GCC_VERSION >= 3001)
++#  define ATTRIBUTE_FORMAT_FPTR(style, m, n) ATTRIBUTE_FORMAT(style, m, n)
++# else
++#  define ATTRIBUTE_FORMAT_FPTR(style, m, n)
++# endif /* GNUC >= 3.1 */
++#endif
++
+ #include <m_ctype.h>
+ #endif
+ #endif

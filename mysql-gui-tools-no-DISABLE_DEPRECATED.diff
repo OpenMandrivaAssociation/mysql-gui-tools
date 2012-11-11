@@ -1,0 +1,70 @@
+diff -Naur mysql-gui-tools-5.0r12/mysql-query-browser/source/linux/gtksourceview/aclocal.m4 mysql-gui-tools-5.0r12.oden/mysql-query-browser/source/linux/gtksourceview/aclocal.m4
+--- mysql-gui-tools-5.0r12/mysql-query-browser/source/linux/gtksourceview/aclocal.m4	2005-05-18 05:39:44.000000000 +0200
++++ mysql-gui-tools-5.0r12.oden/mysql-query-browser/source/linux/gtksourceview/aclocal.m4	2008-07-28 14:53:52.000000000 +0200
+@@ -6929,7 +6929,7 @@
+ AC_DEFUN([GNOME_MAINTAINER_MODE_DEFINES],
+ [
+ 	if test $USE_MAINTAINER_MODE = yes; then
+-		DISABLE_DEPRECATED="-DG_DISABLE_DEPRECATED -DGDK_DISABLE_DEPRECATED -DGTK_DISABLE_DEPRECATED -DGNOME_DISABLE_DEPRECATED -DPANGO_DISABLE_DEPRECATED -DBONOBO_DISABLE_DEPRECATED"
++		DISABLE_DEPRECATED=""
+ 	else
+ 		DISABLE_DEPRECATED=""
+ 	fi
+diff -Naur mysql-gui-tools-5.0r12/mysql-query-browser/source/linux/gtksourceview/gtksourceview/Makefile.am mysql-gui-tools-5.0r12.oden/mysql-query-browser/source/linux/gtksourceview/gtksourceview/Makefile.am
+--- mysql-gui-tools-5.0r12/mysql-query-browser/source/linux/gtksourceview/gtksourceview/Makefile.am	2005-04-15 00:00:33.000000000 +0200
++++ mysql-gui-tools-5.0r12.oden/mysql-query-browser/source/linux/gtksourceview/gtksourceview/Makefile.am	2008-07-28 14:54:06.000000000 +0200
+@@ -9,10 +9,6 @@
+ INCLUDES = 				\
+ 	-DDATADIR=\""$(datadir)"\" 	\
+ 	-DG_LOG_DOMAIN=\"GtkSourceView\"\
+-	-DG_DISABLE_DEPRECATED 		\
+-	-DGTK_DISABLE_DEPRECATED 	\
+-	-DGDK_DISABLE_DEPRECATED 	\
+-	-DGDK_PIXBUF_DISABLE_DEPRECATED	\
+ 	-I$(top_srcdir) -I$(srcdir) 	\
+ 	$(WARN_CFLAGS) 			\
+ 	$(DEP_CFLAGS)
+diff -Naur mysql-gui-tools-5.0r12/mysql-query-browser/source/linux/gtksourceview/gtksourceview/Makefile.in mysql-gui-tools-5.0r12.oden/mysql-query-browser/source/linux/gtksourceview/gtksourceview/Makefile.in
+--- mysql-gui-tools-5.0r12/mysql-query-browser/source/linux/gtksourceview/gtksourceview/Makefile.in	2005-04-15 00:00:33.000000000 +0200
++++ mysql-gui-tools-5.0r12.oden/mysql-query-browser/source/linux/gtksourceview/gtksourceview/Makefile.in	2008-07-28 14:53:59.000000000 +0200
+@@ -202,10 +202,6 @@
+ INCLUDES = \
+ 	-DDATADIR=\""$(datadir)"\" 	\
+ 	-DG_LOG_DOMAIN=\"GtkSourceView\"\
+-	-DG_DISABLE_DEPRECATED 		\
+-	-DGTK_DISABLE_DEPRECATED 	\
+-	-DGDK_DISABLE_DEPRECATED 	\
+-	-DGDK_PIXBUF_DISABLE_DEPRECATED	\
+ 	-I$(top_srcdir) -I$(srcdir) 	\
+ 	$(WARN_CFLAGS) 			\
+ 	$(DEP_CFLAGS)
+diff -Naur mysql-gui-tools-5.0r12/mysql-query-browser/source/linux/gtksourceview/tests/Makefile.am mysql-gui-tools-5.0r12.oden/mysql-query-browser/source/linux/gtksourceview/tests/Makefile.am
+--- mysql-gui-tools-5.0r12/mysql-query-browser/source/linux/gtksourceview/tests/Makefile.am	2005-03-13 15:42:26.000000000 +0100
++++ mysql-gui-tools-5.0r12.oden/mysql-query-browser/source/linux/gtksourceview/tests/Makefile.am	2008-07-28 14:54:21.000000000 +0200
+@@ -1,11 +1,6 @@
+ INCLUDES = 				\
+ 	-DDATADIR=\""$(datadir)"\" 	\
+ 	-DG_LOG_DOMAIN=\"GtkSourceView\"\
+-	-DG_DISABLE_DEPRECATED 		\
+-	-DGDK_DISABLE_DEPRECATED 	\
+-	-DGDK_PIXBUF_DISABLE_DEPRECATED	\
+-	-DGTK_DISABLE_DEPRECATED	\
+-	-DGNOME_DISABLE_DEPRECATED	\
+ 	-I$(top_srcdir) -I$(srcdir) 	\
+ 	$(WARN_CFLAGS) 			\
+ 	$(DEP_CFLAGS)                  \
+diff -Naur mysql-gui-tools-5.0r12/mysql-query-browser/source/linux/gtksourceview/tests/Makefile.in mysql-gui-tools-5.0r12.oden/mysql-query-browser/source/linux/gtksourceview/tests/Makefile.in
+--- mysql-gui-tools-5.0r12/mysql-query-browser/source/linux/gtksourceview/tests/Makefile.in	2005-03-13 15:42:26.000000000 +0100
++++ mysql-gui-tools-5.0r12.oden/mysql-query-browser/source/linux/gtksourceview/tests/Makefile.in	2008-07-28 14:54:15.000000000 +0200
+@@ -197,11 +197,6 @@
+ INCLUDES = \
+ 	-DDATADIR=\""$(datadir)"\" 	\
+ 	-DG_LOG_DOMAIN=\"GtkSourceView\"\
+-	-DG_DISABLE_DEPRECATED 		\
+-	-DGDK_DISABLE_DEPRECATED 	\
+-	-DGDK_PIXBUF_DISABLE_DEPRECATED	\
+-	-DGTK_DISABLE_DEPRECATED	\
+-	-DGNOME_DISABLE_DEPRECATED	\
+ 	-I$(top_srcdir) -I$(srcdir) 	\
+ 	$(WARN_CFLAGS) 			\
+ 	$(DEP_CFLAGS)                  \

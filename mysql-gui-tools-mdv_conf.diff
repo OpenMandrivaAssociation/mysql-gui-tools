@@ -1,0 +1,72 @@
+diff -Naur mysql-gui-tools-5.0r9/mysql-administrator/res/linux/admin_preferences.glade mysql-gui-tools-5.0r9.oden/mysql-administrator/res/linux/admin_preferences.glade
+--- mysql-gui-tools-5.0r9/mysql-administrator/res/linux/admin_preferences.glade	2006-08-14 02:12:18.000000000 +0200
++++ mysql-gui-tools-5.0r9.oden/mysql-administrator/res/linux/admin_preferences.glade	2007-01-21 16:29:52.000000000 +0100
+@@ -88,7 +88,7 @@
+ 		<widget class="GtkLabel" id="label34">
+ 		  <property name="visible">True</property>
+ 		  <property name="label" translatable="yes">The path for the script to be used to start and stop 
+-MySQL locally, Usually located at /etc/init.d/mysql 
++MySQL locally, Usually located at /etc/rc.d/init.d/mysqld 
+ and invoked with  start or stop as the argument.</property>
+ 		  <property name="use_underline">False</property>
+ 		  <property name="use_markup">False</property>
+diff -Naur mysql-gui-tools-5.0r9/mysql-administrator/source/linux/MAdministrator.cc mysql-gui-tools-5.0r9.oden/mysql-administrator/source/linux/MAdministrator.cc
+--- mysql-gui-tools-5.0r9/mysql-administrator/source/linux/MAdministrator.cc	2007-01-17 03:59:17.000000000 +0100
++++ mysql-gui-tools-5.0r9.oden/mysql-administrator/source/linux/MAdministrator.cc	2007-01-21 16:33:40.000000000 +0100
+@@ -988,7 +988,7 @@
+ void MAdministrator::open_merlin_page()
+ {
+ //  system("gnome-www-browser http://www.mysql.com/network/&");
+-  system("firefox http://www.mysql.com/network/&");
++  system("www-browser http://www.mysql.com/network/&");
+ }
+ 
+ 
+diff -Naur mysql-gui-tools-5.0r9/mysql-administrator/source/linux/MAPreferences.cc mysql-gui-tools-5.0r9.oden/mysql-administrator/source/linux/MAPreferences.cc
+--- mysql-gui-tools-5.0r9/mysql-administrator/source/linux/MAPreferences.cc	2006-08-01 20:59:54.000000000 +0200
++++ mysql-gui-tools-5.0r9.oden/mysql-administrator/source/linux/MAPreferences.cc	2007-01-21 16:31:10.000000000 +0100
+@@ -23,7 +23,7 @@
+   backup_profiles_directory= "backup_profiles";
+   last_backup_directory= Glib::get_home_dir();
+   
+-  start_script_path= "/etc/init.d/mysql";
++  start_script_path= "/etc/rc.d/init.d/mysqld";
+ 
+   show_user_global_privileges= false;
+   show_user_table_column_privileges= false;
+diff -Naur mysql-gui-tools-5.0r9/mysql-administrator/source/linux/MInstanceInfo.cc mysql-gui-tools-5.0r9.oden/mysql-administrator/source/linux/MInstanceInfo.cc
+--- mysql-gui-tools-5.0r9/mysql-administrator/source/linux/MInstanceInfo.cc	2006-08-03 04:44:46.000000000 +0200
++++ mysql-gui-tools-5.0r9.oden/mysql-administrator/source/linux/MInstanceInfo.cc	2007-01-21 16:34:29.000000000 +0100
+@@ -830,7 +830,7 @@
+   }
+ #ifdef MYSQLD_PID_FILE_TRY_GUESS
+   char *paths[]= {
+-    "/var/lock/subsys/mysql",
++    "/var/lock/subsys/mysqld",
+     "/var/run/mysqld/mysqld.pid",
+       "/var/run/mysql/mysqld.pid"
+       "/var/lib/mysqld/mysqld.pid",
+diff -Naur mysql-gui-tools-5.0r9/mysql-administrator/source/linux/myadmin.h mysql-gui-tools-5.0r9.oden/mysql-administrator/source/linux/myadmin.h
+--- mysql-gui-tools-5.0r9/mysql-administrator/source/linux/myadmin.h	2006-08-03 04:44:46.000000000 +0200
++++ mysql-gui-tools-5.0r9.oden/mysql-administrator/source/linux/myadmin.h	2007-01-21 16:35:10.000000000 +0100
+@@ -83,7 +83,7 @@
+ /* system specific paths */
+ #define DEFAULT_INNODB_DATADIR "/var/lib/mysql"
+ 
+-#define DEFAULT_MY_CNF_PATH "/etc/mysql/my.cnf"
++#define DEFAULT_MY_CNF_PATH "/etc/my.cnf"
+ #define MY_CNF_PATH_TRY_GUESS
+ 
+ #define DEFAULT_MYSQLD_PID_FILE "/var/lib/mysqld/mysqld.pid"
+diff -Naur mysql-gui-tools-5.0r9/mysql-gui-common/source/linux/MGExecSU.cc mysql-gui-tools-5.0r9.oden/mysql-gui-common/source/linux/MGExecSU.cc
+--- mysql-gui-tools-5.0r9/mysql-gui-common/source/linux/MGExecSU.cc	2006-09-26 16:48:35.000000000 +0200
++++ mysql-gui-tools-5.0r9.oden/mysql-gui-common/source/linux/MGExecSU.cc	2007-01-21 16:36:51.000000000 +0100
+@@ -432,7 +432,7 @@
+ 
+   myg_datadir= "../../res/linux";
+   
+-  MGExecSU *exsu= new MGExecSU("testing", "/etc/init.d/mysql stop");
++  MGExecSU *exsu= new MGExecSU("testing", "/etc/rc.d/init.d/mysqld stop");
+ 
+   exsu->signal_output().connect(sigc::ptr_fun(&handle_output));
+   exsu->signal_finished().connect(sigc::bind<MGExecSU*>(sigc::ptr_fun(&handle_end), exsu));

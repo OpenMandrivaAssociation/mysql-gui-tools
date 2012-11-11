@@ -1,0 +1,76 @@
+--- mysql-administrator/library/source/myx_backup.c	2008-10-16 04:40:40.000000000 -0400
++++ mysql-administrator/library/source/myx_backup.c.oden	2009-10-05 08:45:05.000000000 -0400
+@@ -545,7 +545,7 @@ int dump_dummy_tables_for_views(MYX_BS_S
+             status->current_table_quoted);
+         else
+           sql= g_strdup_printf("DROP TABLE IF EXISTS %s;\n", status->current_table_quoted);
+-        SAFE_IO(fprintf(status->sql_file, sql));
++        SAFE_IO(fprintf(status->sql_file, "%s", sql));
+         g_free(sql);
+ 
+         if (status->qualified)
+@@ -553,7 +553,7 @@ int dump_dummy_tables_for_views(MYX_BS_S
+             status->current_table_quoted);
+         else
+           sql= g_strdup_printf("DROP VIEW IF EXISTS %s;\n", status->current_table_quoted);
+-        SAFE_IO(fprintf(status->sql_file, sql));
++        SAFE_IO(fprintf(status->sql_file, "%s", sql));
+         g_free(sql);
+       };
+ 
+@@ -572,7 +572,7 @@ int dump_dummy_tables_for_views(MYX_BS_S
+                 status->current_table_quoted);
+             else
+               sql= g_strdup_printf("CREATE TABLE %s (\n", status->current_table_quoted);
+-            SAFE_IO(fprintf(status->sql_file, sql));
++            SAFE_IO(fprintf(status->sql_file, "%s", sql));
+             g_free(sql);
+ 
+             /*
+@@ -2910,7 +2910,7 @@ int write_sql_file_header(MYX_BS_STATUS 
+   if (status->options & MYX_B_COMPATIBILITY_MODE)
+     BufferEnd= strmov(BufferEnd, ",MYSQL323");
+   strmov(BufferEnd, "' */;\n\n\n");
+-  SAFE_IO(fprintf(status->sql_file, Buffer));
++  SAFE_IO(fprintf(status->sql_file, "%s", Buffer));
+ 
+   return 0;
+ }
+@@ -3011,7 +3011,7 @@ int write_create_statement_to_file(MYX_B
+       else
+         drop_string= g_strdup_printf("\nDROP TABLE IF EXISTS %s;", status->current_table_quoted);
+ 
+-      SAFE_IO(fprintf(status->sql_file, drop_string));
++      SAFE_IO(fprintf(status->sql_file, "%s", drop_string));
+       g_free(drop_string);
+     };
+ 
+@@ -3037,7 +3037,7 @@ int write_create_statement_to_file(MYX_B
+         drop_string= g_strdup_printf("\nDROP %s %s;\n", object_name[type][0], status->current_table_quoted);
+     };
+ 
+-    SAFE_IO(fprintf(status->sql_file, drop_string));
++    SAFE_IO(fprintf(status->sql_file, "%s", drop_string));
+     g_free(drop_string);
+   };
+ 
+@@ -3116,7 +3116,7 @@ int write_triggers_to_file(MYX_BS_STATUS
+         else
+           drop_string= g_strdup_printf("\nDROP TRIGGER /*!50030 IF EXISTS */ %s;\n", quoted_trigger);
+ 
+-        SAFE_IO(fprintf(status->sql_file, drop_string));
++        SAFE_IO(fprintf(status->sql_file, "%s", drop_string));
+         g_free(drop_string);
+       };
+ 
+--- mysql-administrator/source/util/mabackup.cc	2008-09-12 10:55:54.000000000 -0400
++++ mysql-administrator/source/util/mabackup.cc.oden	2009-10-05 08:56:20.000000000 -0400
+@@ -56,7 +56,7 @@ static inline void chk(bool cond, const 
+ {
+   if(!cond)
+   {
+-    g_print(errtext);
++    g_print("%s", errtext);
+     exit(-1);
+   }
+ }

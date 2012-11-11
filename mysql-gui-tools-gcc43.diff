@@ -1,0 +1,79 @@
+diff -Naurp mysql-gui-tools-5.0r14/mysql-gui-common/library/generic-canvas/source/myx_gc_variant.cpp mysql-gui-tools-5.0r14.oden/mysql-gui-common/library/generic-canvas/source/myx_gc_variant.cpp
+--- mysql-gui-tools-5.0r14/mysql-gui-common/library/generic-canvas/source/myx_gc_variant.cpp	2005-07-21 09:56:59.000000000 -0400
++++ mysql-gui-tools-5.0r14.oden/mysql-gui-common/library/generic-canvas/source/myx_gc_variant.cpp	2009-10-05 08:22:36.000000000 -0400
+@@ -19,7 +19,7 @@
+  * @brief Implementation of a general purpose variant data type.
+  * 
+  */
+-
++#include <cstdio>
+ #include "myx_gc_variant.h"
+ #include "myx_gc_datatypes.h"
+ 
+diff -Naurp mysql-gui-tools-5.0r14/mysql-gui-common/library/grt-wb-controller/source/GraphRenderer.cpp mysql-gui-tools-5.0r14.oden/mysql-gui-common/library/grt-wb-controller/source/GraphRenderer.cpp
+--- mysql-gui-tools-5.0r14/mysql-gui-common/library/grt-wb-controller/source/GraphRenderer.cpp	2006-03-16 12:04:33.000000000 -0500
++++ mysql-gui-tools-5.0r14.oden/mysql-gui-common/library/grt-wb-controller/source/GraphRenderer.cpp	2009-10-05 08:22:10.000000000 -0400
+@@ -10,6 +10,8 @@ const int GraphRenderer::K2;
+ const int GraphRenderer::K3;
+ #endif
+ 
++#include <climits>
++
+ /*
+ // equals for doubles
+ // algorithm by D.E.Knuth (TAOCP Vol.3 Sec. 4.2.2)
+diff -Naurp mysql-gui-tools-5.0r14/mysql-gui-common/source/linux/MGFileBrowserList.cc mysql-gui-tools-5.0r14.oden/mysql-gui-common/source/linux/MGFileBrowserList.cc
+--- mysql-gui-tools-5.0r14/mysql-gui-common/source/linux/MGFileBrowserList.cc	2006-07-25 16:03:52.000000000 -0400
++++ mysql-gui-tools-5.0r14.oden/mysql-gui-common/source/linux/MGFileBrowserList.cc	2009-10-05 08:22:10.000000000 -0400
+@@ -20,8 +20,11 @@
+ #include <unistd.h>
+ #include <sys/stat.h>
+ #include <errno.h>
++#include <string.h>
+ #include <stdio.h> /* rename() in FreeBSD */
+ 
++#include <cstring>
++
+ 
+ 
+ MGFileBrowserList::MGFileBrowserList(const Glib::ustring &title,
+diff -Naurp mysql-gui-tools-5.0r14/mysql-gui-common/source/linux/MGHMeterGraphPlotter.cc mysql-gui-tools-5.0r14.oden/mysql-gui-common/source/linux/MGHMeterGraphPlotter.cc
+--- mysql-gui-tools-5.0r14/mysql-gui-common/source/linux/MGHMeterGraphPlotter.cc	2005-03-13 08:16:59.000000000 -0500
++++ mysql-gui-tools-5.0r14.oden/mysql-gui-common/source/linux/MGHMeterGraphPlotter.cc	2009-10-05 08:22:10.000000000 -0400
+@@ -16,6 +16,9 @@
+ 
+ 
+ #include "MGHMeterGraphPlotter.h"
++#include <string.h>
++
++#include <cstring>
+ 
+ 
+ 
+diff -Naurp mysql-gui-tools-5.0r14/mysql-gui-common/source/linux/MySQLGRT/MGRTValueTree.h mysql-gui-tools-5.0r14.oden/mysql-gui-common/source/linux/MySQLGRT/MGRTValueTree.h
+--- mysql-gui-tools-5.0r14/mysql-gui-common/source/linux/MySQLGRT/MGRTValueTree.h	2006-03-02 23:30:10.000000000 -0500
++++ mysql-gui-tools-5.0r14.oden/mysql-gui-common/source/linux/MySQLGRT/MGRTValueTree.h	2009-10-05 08:22:10.000000000 -0400
+@@ -50,7 +50,7 @@ class MGRTValueTree : public Gtk::TreeVi
+     void set_icon(Gtk::TreeRow row, MGRTValue value);
+     void add_value_item(Gtk::TreeIter iter, MGRTValue value);
+     
+-    void add_list_to_store(MGRTValue list, Gtk::TreeRow *parent, std::list<MYX_GRT_VALUE*> *list);
++    void add_list_to_store(MGRTValue list1, Gtk::TreeRow *parent, std::list<MYX_GRT_VALUE*> *list2);
+     void add_dict_to_store(MGRTValue dict, Gtk::TreeRow &parent, std::list<MYX_GRT_VALUE*> *list);
+ 
+     void remember_path(Gtk::TreeView *tree, const Gtk::TreeModel::Path &path, std::list<MYX_GRT_VALUE*> &list);
+diff -Naurp mysql-gui-tools-5.0r14/mysql-query-browser/source/linux/MGCodeEditor.cc mysql-gui-tools-5.0r14.oden/mysql-query-browser/source/linux/MGCodeEditor.cc
+--- mysql-gui-tools-5.0r14/mysql-query-browser/source/linux/MGCodeEditor.cc	2007-01-29 13:20:57.000000000 -0500
++++ mysql-gui-tools-5.0r14.oden/mysql-query-browser/source/linux/MGCodeEditor.cc	2009-10-05 08:22:10.000000000 -0400
+@@ -16,8 +16,11 @@
+ 
+ #include "MGCodeEditor.h"
+ 
++#include <string.h>
+ #include <gtksourceview/gtksourcelanguagesmanager.h>
+ 
++#include <cstring>
++
+ 
+ 
+ 

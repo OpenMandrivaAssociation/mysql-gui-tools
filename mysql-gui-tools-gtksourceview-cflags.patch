@@ -1,0 +1,11 @@
+--- mysql-query-browser/source/linux/Makefile.am	2009-10-05 09:00:43.000000000 -0400
++++ mysql-query-browser/source/linux/Makefile.am.oden	2009-10-05 09:01:59.000000000 -0400
+@@ -61,7 +61,7 @@
+ # If a solution is found, this could be removed.
+ #
+ $(top_builddir)/source/linux/gtksourceview/gtksourceview/.libs/libgtksourceview-1.0.a:
+-	(cd gtksourceview; ./configure --enable-compile-warnings=yes --enable-static --disable-shared --disable-build-tests; make CFLAGS="$(CFLAGS) -fno-strict-aliasing")
++	(cd gtksourceview; ./configure --enable-compile-warnings=yes --enable-static --disable-shared --disable-build-tests; make CFLAGS="$(CFLAGS) -D_GNU_SOURCE -fno-strict-aliasing")
+ 
+ clean-generic:
+ 	-make -C gtksourceview distclean
