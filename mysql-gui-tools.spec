@@ -27,7 +27,7 @@ Group:		Databases
 Version:	5.0
 Release:	1.%{r_ver}.9
 License:	GPL
-URL:		http://www.mysql.com/products/tools/
+URL:		https://www.mysql.com/products/tools/
 Source:		ftp://ftp.sunet.se/pub/databases/relational/mysql/Downloads/MySQLGUITools/%{name}-%{version}%{r_ver}.tar.gz
 Source1:	mysql-administrator-doc.tar.bz2
 Source2:	mysql-query-browser-doc.tar.bz2
