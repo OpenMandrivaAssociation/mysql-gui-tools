@@ -51,6 +51,10 @@ Patch20:	mysql-gui-tools-5.0r14-invalid_const_char_conversion.diff
 Patch21:	mysql-gui-tools-5.0r14-format_not_a_string_literal_and_no_format_arguments.diff
 Patch22:	mysql-gui-tools-gtksourceview-cflags.patch
 Patch23:	mysql-gui-tools-5.0r14-gnome_cflags.diff
+BuildRequires:	automake
+BuildRequires:	libtool-base
+BuildRequires:	slibtool
+BuildRequires:	make
 BuildRequires:	autoconf2.5
 BuildRequires:	expat-devel
 BuildRequires:	file
